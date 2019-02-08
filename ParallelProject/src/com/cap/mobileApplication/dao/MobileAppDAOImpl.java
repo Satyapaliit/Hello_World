@@ -13,7 +13,7 @@ public class MobileAppDAOImpl implements IMobileAppDAO
 	{
 		mobileInventory.add(new Mobile("1001","Nokia Lumia 520",8000,20));
 		mobileInventory.add(new Mobile("1002","Samsung Galaxy IV",38000,30));
-		mobileInventory.add(new Mobile("1003","’Sony xperia C",15000,200));
+		mobileInventory.add(new Mobile("1003","â€™Sony xperia C",15000,200));
 		mobileInventory.add(new Mobile("1004","Nokia 1200 520",1000,20));
 	}
 
@@ -34,15 +34,16 @@ public class MobileAppDAOImpl implements IMobileAppDAO
 	{
 		
 		Iterator<Mobile> it = mobileInventory.iterator();
+		Mobile value = null;
 		while (it.hasNext())
 		{
-			Mobile value = it.next();
+			value = it.next();
 			if (value.getMobileid().equals(id))
 			{
-				mobileInventory.remove(value);				
+				break;				
 			}
 		}
-		
+		mobileInventory.remove(value);
 		
 				
 		for(Mobile mob:mobileInventory)
