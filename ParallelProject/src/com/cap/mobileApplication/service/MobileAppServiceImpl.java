@@ -1,7 +1,5 @@
-/**
- * 
- */
 package com.cap.mobileApplication.service;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +11,15 @@ import com.cap.mobileApplication.bean.Mobile;
 import com.cap.mobileApplication.dao.IMobileAppDAO;
 import com.cap.mobileApplication.dao.MobileAppDAOImpl;
 import com.cap.mobileApplication.exception.CustomerDetailsException;
-import com.capgemini.donorapplication.exception.DonorException;
+
 
 public class MobileAppServiceImpl implements IMobileAppService
 {
+	public MobileAppServiceImpl()
+	{
+		new MobileAppDAOImpl();
+	}
+	
 	IMobileAppDAO iMobileAppdao=new MobileAppDAOImpl();
 	@Override
 	public List<Mobile> viewInventory()
@@ -53,8 +56,9 @@ public class MobileAppServiceImpl implements IMobileAppService
 	
 	//Customer details validation
 
-	public void validateCustomerDetails(String mobileid,String customerName,String customerEmail,String customerPhone)
+	public void validateCustomerDetails(String mobileid,String customerName,String customerEmail,String customerPhone)  throws CustomerDetailsException
 	{
+		//System.out.println("First passed:"+mobileid);
 		List<String> validationErrors = new ArrayList<String>();
 
 		//Validating Customer Name
@@ -78,7 +82,10 @@ public class MobileAppServiceImpl implements IMobileAppService
 		}
 		
 		if(!validationErrors.isEmpty())
+		{
 			throw new CustomerDetailsException(validationErrors +"");
+		}
+			
 		
 	}
 	
@@ -98,6 +105,7 @@ public class MobileAppServiceImpl implements IMobileAppService
 	{
 		for(Mobile mob:iMobileAppdao.viewInventory())
 		{
+			//System.out.println("passed:"+mobileid+"Fetched:"+mob.getMobileid());
 			if(mob.getMobileid().equals(mobileid))
 			{
 				return true;
@@ -111,7 +119,7 @@ public class MobileAppServiceImpl implements IMobileAppService
 	public boolean isValidEmail(String email)
 	{
 		
-		Pattern idPattern = Pattern.compile("[a-zA-Z]{3,}$[@][a-z]{4,}[.][a-z]{2,}$");
+		Pattern idPattern = Pattern.compile("^[a-zA-Z0-9_+&*-]+(?:\\."+"[a-zA-Z0-9_+&*-]+)*@" +"(?:[a-zA-Z0-9-]+\\.)+[a-z"+"A-Z]{2,7}$");
 		Matcher idMatcher = idPattern.matcher(email);
 		
 		if(idMatcher.matches())
